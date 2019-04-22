@@ -16,7 +16,7 @@ import (
 //@:version:1.0
 //@:organization:orgBtjfCSPCAJ84uQWcpNr74NLMWYm5SXzer
 //@:author:01bd6c29d63f5f32aa33955f26a28459988edea4de517f77372e77db33958e6e
-           
+
 type Dice2Win struct {
 	sdk sdk.ISmartContract
 
