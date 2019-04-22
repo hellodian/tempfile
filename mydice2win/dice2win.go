@@ -14,8 +14,8 @@ import (
 //Dice2Win a demo contract
 //@:contract:mydice2win
 //@:version:1.0
-//@:organization:example
-//@:author:localL9BzYNYns5VCRaJgfHEBJLzS1bhpHjx7j
+//@:organization:orgBtjfCSPCAJ84uQWcpNr74NLMWYm5SXzer
+//@:author:2b6cab2f53a83f2d08807010533bc53785edfda0aed55028336914ccebadbc94
 type Dice2Win struct {
 	sdk sdk.ISmartContract
 
