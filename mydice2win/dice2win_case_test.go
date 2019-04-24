@@ -276,6 +276,7 @@ func (mysuit *MySuite) TestDice2Win_WithdrawFunds(c *check.C) {
 
 //TestDice2Win_PlaceBet is a method of MySuite
 func (mysuit *MySuite) TestDice2Win_PlaceBet(c *check.C) {
+	fmt.Println("helo")
 	utest.Init(orgID)
 	contractOwner := utest.DeployContract(c, contractName, orgID, contractMethods, contractInterfaces)
 	test := NewTestObject(contractOwner)
@@ -292,7 +293,8 @@ func (mysuit *MySuite) TestDice2Win_PlaceBet(c *check.C) {
 	}
 
 	commitLastBlock1, pubKey, _, commit1, signData1 := PlaceBetHelper(100)
-
+	fmt.Println(commit1)
+	fmt.Println(signData1)
 	test.run().setSender(contractOwner).InitChain()
 	utest.AssertError(test.run().setSender(contractOwner).SetSecretSigner(pubKey[:]), types.CodeOK)
 	hexStr := hex.EncodeToString(pubKey[:])

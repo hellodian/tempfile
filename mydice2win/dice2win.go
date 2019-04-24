@@ -10,13 +10,12 @@ import (
 	"blockchain/smcsdk/sdk/jsoniter"
 	"blockchain/smcsdk/sdk/types"
 )
-
+//author:2b6cab2f53a83f2d08807010533bc53785edfda0aed55028336914ccebadbc94
 //Dice2Win a demo contract
 //@:contract:mydice2win
-//@:version:1.0
+//@:version:4.0
 //@:organization:orgBtjfCSPCAJ84uQWcpNr74NLMWYm5SXzer
 //@:author:01bd6c29d63f5f32aa33955f26a28459988edea4de517f77372e77db33958e6e
-
 type Dice2Win struct {
 	sdk sdk.ISmartContract
 
