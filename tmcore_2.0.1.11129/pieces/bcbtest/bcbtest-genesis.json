@@ -1,0 +1,145 @@
+{
+  "chain_id": "bcbtest",
+  "chain_version": "2",
+  "genesis_time": "2019-04-08T18:14:46.9579135+08:00",
+  "app_hash": "",
+  "app_state": {
+    "organization": "genesis",
+    "token": {
+      "address": "",
+      "owner": "bcbtestQ76Ao8wv8hiP4QgijgHTuZNKPyQJe3dmp",
+      "name": "BCBT",
+      "symbol": "BCBT",
+      "totalSupply": 5000000000000000000,
+      "addSupplyEnabled": false,
+      "burnEnabled": false,
+      "gasPrice": 2500
+    },
+    "rewardStrategy": [
+      {
+        "name": "validators",
+        "rewardPercent": "20.00",
+        "address": ""
+      },
+      {
+        "name": "r_d_team",
+        "rewardPercent": "30.00",
+        "address": "bcbtestK1DhB6n2cKknA8M3PKrAToodkGzzQRGut"
+      },
+      {
+        "name": "bonus_bcbt",
+        "rewardPercent": "20.00",
+        "address": "bcbtestDLbuX4gpVrEotexBZwVctpJEmVuKA6ssR"
+      },
+      {
+        "name": "bonus_token",
+        "rewardPercent": "30.00",
+        "address": "bcbtestC4rfdEfUtjiCw8UaUTp3N2BjTyD7LjoWi"
+      }
+    ],
+    "contracts": [
+      {
+        "name": "governance",
+        "version": "2.0",
+        "code": "governance-2.0.tar.gz",
+        "codeHash": "dcae9414e0dfdf65fe01876173eae467b49faa84a57456efb90632496145f2df",
+        "codeDevSig": {
+          "pubkey": "5e8339cb1a5cce65602fd4f57e115905348f7e83bcbe38dd77694dbe1f8903c9",
+          "signature": "89A263131C7068ED3BE2C43DA1AAB7627E45732732974005984D063AB4B580DD8A6A49A8EED3B6686AE32488E615E6E3CCED2240ED6553718098BB9575A87B01"
+        },
+        "codeOrgSig": {
+          "pubkey": "0c27b3396bdc1b486af51e84accbdd23a0d55a49c34fa51cf0ed6aedccf984d4",
+          "signature": "A69536F2A193158C750D07FE7A3248F5257D32BDC09356E50CE72E6B24006E20FE14EAC9047B2CD61F605D038930B92767AB6044C1425248D08D7F26B34C4404"
+        }
+      },
+      {
+        "name": "organization",
+        "version": "2.0",
+        "code": "organization-2.0.tar.gz",
+        "codeHash": "c486afde4343f36d58457d1d5fad0159c207b0d80dbcba51a2049b77cc8660ed",
+        "codeDevSig": {
+          "pubkey": "5e8339cb1a5cce65602fd4f57e115905348f7e83bcbe38dd77694dbe1f8903c9",
+          "signature": "80F95491C486EC60E720BD6F063858D1675E04BF31A5DCF9E4092E02AE7A9748333D344684FDC5ECA78583F9FE1747C5262D57845021C9B5876873D31DD58102"
+        },
+        "codeOrgSig": {
+          "pubkey": "0c27b3396bdc1b486af51e84accbdd23a0d55a49c34fa51cf0ed6aedccf984d4",
+          "signature": "25D0C3177F0721AB88CBCC1304258D27A677C5D551BB95B2B8D4658ADDA3FABFA26CFBBDBECA7DCE9B84B3850D9AEB27959C4322D38452673FFFDBBB9DE12203"
+        }
+      },
+      {
+        "name": "smartcontract",
+        "version": "2.0",
+        "code": "smartcontract-2.0.tar.gz",
+        "codeHash": "2fb86c6175e2ebb0044e219a4e2d74c20837edf5e6d0ef1a209a17ece11b2bf9",
+        "codeDevSig": {
+          "pubkey": "5e8339cb1a5cce65602fd4f57e115905348f7e83bcbe38dd77694dbe1f8903c9",
+          "signature": "03D849FCFFF2E627C12FB732342BF6EDA069EC0455065D405F155E4670BB8AE9E32932F02E912ED373B5E264028D55D8EC3A2A43AD09AEC72E6B870D9279B305"
+        },
+        "codeOrgSig": {
+          "pubkey": "0c27b3396bdc1b486af51e84accbdd23a0d55a49c34fa51cf0ed6aedccf984d4",
+          "signature": "60B1CF3A56F02BDB6B06D2385A894BCC980CA01BFC561CEB46A50C551BF545175829BAD4F832C8C2A4A61C406F0AC0A4E5B32832DD10AA9C6F469AA8BB994102"
+        }
+      },
+      {
+        "name": "token-basic",
+        "version": "2.0",
+        "code": "token-basic-2.0.tar.gz",
+        "codeHash": "465940e6b9056b7210dc177b1ae296ce2dd5c198f0f6646e1da96eaa073a5c25",
+        "codeDevSig": {
+          "pubkey": "5e8339cb1a5cce65602fd4f57e115905348f7e83bcbe38dd77694dbe1f8903c9",
+          "signature": "63DC8EE82122529C57577D348AA37F53BFE0F3F3D247FC69A19385AB05CB793D2F7BEBBF841F438591E6E921D491CBA1A0627842EE3D5ACE0724B96A08D1C809"
+        },
+        "codeOrgSig": {
+          "pubkey": "0c27b3396bdc1b486af51e84accbdd23a0d55a49c34fa51cf0ed6aedccf984d4",
+          "signature": "9FC948B882AC47B26622BE2CF1422ABBDFBAE5672A0EAC8C9242F0FFFA3799ED33F205EAF868EE04936B1315E0FCA023A1D245384135FE431EC00377E8C5D406"
+        }
+      },
+      {
+        "name": "token-issue",
+        "version": "2.0",
+        "code": "token-issue-2.0.tar.gz",
+        "codeHash": "de7b5570e11544c8ab42e7177d8dbe22c1cbbe0d025854799c34b54602b1e539",
+        "codeDevSig": {
+          "pubkey": "5e8339cb1a5cce65602fd4f57e115905348f7e83bcbe38dd77694dbe1f8903c9",
+          "signature": "63F8B17828B7ED4B5687B7CCC6D862A66BB68F053CCD89E2BA042E617128343AB4A2059F69DA1C5CBA41F6B32620F22D2C01BEF4084994427451F740B372BA02"
+        },
+        "codeOrgSig": {
+          "pubkey": "0c27b3396bdc1b486af51e84accbdd23a0d55a49c34fa51cf0ed6aedccf984d4",
+          "signature": "944B257CDCF5E2BD8A64209AD8F6BE14B806710927551D84DE8974F777FBB408A9F04788FCEB133B821AA054F47E2F020C139CB0329D540320532B984F787D0E"
+        }
+      }
+    ]
+  },
+  "validators": [
+    {
+      "name": "tearth",
+      "reward_addr": "bcbtest82JVui6oqz6YuP3NciLfxEur99y7VpHtR",
+      "power": 10
+    },
+    {
+      "name": "tvenus",
+      "reward_addr": "bcbtestBVbSrari2k6dtTgH9pmH8gy6CkAtUzyva",
+      "power": 10
+    },
+    {
+      "name": "tjupiter",
+      "reward_addr": "bcbtest3Y3WpgV692B1ajtBo84w6StVmCJCwAXqR",
+      "power": 10
+    },
+    {
+      "name": "tmercury",
+      "reward_addr": "bcbtestNiDxtNSsz8Peuo14XaRC2qSnVSJWZw4Nd",
+      "power": 10
+    },
+    {
+      "name": "taltair",
+      "reward_addr": "bcbtestMVUjHFVqD15SCNovu9HUyM9uhALuuMQaS",
+      "power": 10
+    },
+    {
+      "name": "tmars",
+      "reward_addr": "bcbtestFpVJe5ERCwLr3VLwebk2VH1LomG4VWaVH",
+      "power": 10
+    }
+  ]
+}

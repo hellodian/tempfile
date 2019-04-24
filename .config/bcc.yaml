@@ -1,0 +1,24 @@
+# 默认配置
+defaultChainID: "local"
+
+# 正式链配置
+bcb:
+  - "https://earth.bcbchain.io"
+  - "https://mars.bcbchain.io"
+  - "https://venus.bcbchain.io"
+  - "https://mercury.bcbchain.io"
+  - "https://jupiter.bcbchain.io"
+  - "https://saturn.bcbchain.io"
+
+# 测试链配置
+bcbtest:
+  - "https://tearth.bcbchain.io"
+  - "https://tmars.bcbchain.io"
+  - "https://tvenus.bcbchain.io"
+  - "https://tmercury.bcbchain.io"
+  - "https://tjupiter.bcbchain.io"
+  - "https://tsaturn.bcbchain.io"
+
+# 本地配置
+local:
+  - "http://localhost:37827"

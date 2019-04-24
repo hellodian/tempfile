@@ -1,0 +1,11 @@
+# 本地服务监听地址:端口
+serverAddr: "tcp://0.0.0.0:37657"
+
+# 是否使用https
+useHttps: false
+
+# 外部证书路径
+outCertPath: "./.config/bcc.rpc"
+
+#日志配置信息
+loggerLevel: "debug"
