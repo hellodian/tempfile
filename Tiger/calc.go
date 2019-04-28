@@ -3,8 +3,6 @@ package tiger
 import "blockchain/smcsdk/sdk/types"
 
 //GetNineLine 数字是多少  几个数相连
-//@:public:method:gas[500]
-
 func (t *Tiger) ClacByLine(p []Poker)(mul ,sum int64,s []Poker){
 	s=make([]Poker,0)
 	if p[0].Value==0{
@@ -96,7 +94,6 @@ func (t *Tiger) ClacByLine(p []Poker)(mul ,sum int64,s []Poker){
 }
 
 //ClacMul  This is a sample method   计算赔率
-//@:public:method:gas[500]
 func (t *Tiger) ClacMul(mul,sum int64) (multiple int64) {
 
 	if sum<3||mul==0{
@@ -163,7 +160,6 @@ func (t *Tiger) ClacMul(mul,sum int64) (multiple int64) {
 }
 
 //ClacMul  This is a sample method   计算免费游戏次数
-//@:public:method:gas[500]
 func (t *Tiger) ClacFee(p []Poker) (sum int64){
 
 	for _,v:=range p {
@@ -194,7 +190,6 @@ func (t *Tiger) ClacFee(p []Poker) (sum int64){
 
 
 //GetNineLine 获取9连线
-//@:public:method:gas[500]
 func (t *Tiger) GetNineLine(address types.Address) (totalMul, totalFee int64, pokeList [][]Poker) {
 	//t.poker=[3][5]Poker{
 	//	[5]Poker{{0, 0 ,2},{0 ,1 ,3}, {0, 2, 3}, {0, 3 ,4} ,{0, 4 ,3}},
