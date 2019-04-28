@@ -422,47 +422,29 @@ func (mysuit *MySuite) TestTiger_PlaceBet(c *check.C) () {
 	utest.Init(orgID)
 	contractOwner := utest.DeployContract(c, contractName, orgID, contractMethods, contractInterfaces)
 	test := NewTestObject(contractOwner)
-	//test.setSender(contractOwner).InitChain()
 	//TODO
 	contract := utest.UTP.Message().Contract()
 	genesisOwner := utest.UTP.Helper().GenesisHelper().Token().Owner()
 	utest.Assert(test.run().setSender(utest.UTP.Helper().AccountHelper().AccountOf(genesisOwner)) != nil)
 
 	utest.Transfer(nil, test.obj.sdk.Helper().GenesisHelper().Token().Name(), contract.Account(), bn.N(1E11))
-	accounts := utest.NewAccounts(test.obj.sdk.Helper().GenesisHelper().Token().Name(), bn.N(1E13), 6)
+	accounts := utest.NewAccounts(test.obj.sdk.Helper().GenesisHelper().Token().Name(), bn.N(1E13), 5)
 	if accounts == nil {
 		panic("初始化newOwner失败")
 	}
-	// DigtalCurrency(tk string, num int64)
-	test.run().setSender(contractOwner).InitChain()
 
 
-	_, _, reval, _, _, _ := PlaceBetHelper(100)
-	_, _, reval1, _, _, _ := PlaceBetHelper(101)
-	_, _, reval2, _, _, _ := PlaceBetHelper(102)
-	_, _, reval3, _, _, _ := PlaceBetHelper(103)
-	commitLastBlock, pubKey, reval4, commit, signData, _ := PlaceBetHelper(104)
-	utest.AssertError(test.run().setSender(contractOwner).SetSecretSigner(pubKey[:]), types.CodeOK)
+	commitLastBlock, pubKey, reveal, commit, signData, _ := PlaceBetHelper(100)
 	//utest.AssertError(err, types.CodeOK)
-	reveal:= [][]byte{reval,reval1,reval2,reval3,reval4}
 
-	utest.AssertError(test.run().setSender(accounts[5]).transfer(bn.N(1000000009000)).DigtalCurrency("LOC",1000000009000), types.CodeOK)
-	test.run().setSender(accounts[5]).transfer(bn.N(1000000001)).PlaceBet(reveal,"LOC", 100000001, commitLastBlock,commit, signData[:], "")
-
-for i:=1;i<1000;i++{
-	s1,s2,s3,s4,s5:= i+1,i+2,i+3,i+4,i+5
-	_, _, reval, _, _, _ := PlaceBetHelper(int64(s1))
-	_, _, reval1, _, _, _ := PlaceBetHelper(int64(s2))
-	_, _, reval2, _, _, _ := PlaceBetHelper(int64(s3))
-	_, _, reval3, _, _, _ := PlaceBetHelper((int64(s4)))
-	commitLastBlock, _, reval4, commit, signData, _ := PlaceBetHelper(int64(s5))
-	reveal:= [][]byte{reval,reval1,reval2,reval3,reval4}
-	test.run().setSender(accounts[5]).PlaceBet(reveal,"LOC", 1000000001, commitLastBlock,commit, signData[:], "")
+	test.run().setSender(contractOwner).InitChain()
+	utest.AssertError(test.run().setSender(contractOwner).SetSecretSigner(pubKey[:]), types.CodeOK)
+	utest.AssertError(test.run().setSender(accounts[0]).transfer(bn.N(1000000009000)).DigtalCurrency("LOC", 1000000009000), types.CodeOK)
 
 
-
-}
-
+	test.run().setSender(accounts[0]).PlaceBet(reveal, "LOC", 1000000001, commitLastBlock, commit, signData[:], "")
+	// PlaceBet(betInfoJson string, commitLastBlock int64,betIndex string, commit, signData []byte, refAddress types.Address)
+	//test.run().setSender(accounts[5]).PlaceBet(reveal,"LOC", 100000001, commitLastBlock,commit, signData[:], "")
 
 }
 
@@ -633,8 +615,39 @@ func (mysuit *MySuite) TestTiger_SetPoker(c *check.C) () {
 	utest.Init(orgID)
 	contractOwner := utest.DeployContract(c, contractName, orgID, contractMethods, contractInterfaces)
 	test := NewTestObject(contractOwner)
-	test.setSender(contractOwner).InitChain()
+	//test.setSender(contractOwner).InitChain()
 	//TODO
+	contract := utest.UTP.Message().Contract()
+	genesisOwner := utest.UTP.Helper().GenesisHelper().Token().Owner()
+	utest.Assert(test.run().setSender(utest.UTP.Helper().AccountHelper().AccountOf(genesisOwner)) != nil)
+
+	utest.Transfer(nil, test.obj.sdk.Helper().GenesisHelper().Token().Name(), contract.Account(), bn.N(1E11))
+	accounts := utest.NewAccounts(test.obj.sdk.Helper().GenesisHelper().Token().Name(), bn.N(1E13), 6)
+	if accounts == nil {
+		panic("初始化newOwner失败")
+	}
+	// DigtalCurrency(tk string, num int64)
+	test.run().setSender(contractOwner).InitChain()
+
+	main := [5][20]int64{}
+	fee := [5][20]int64{}
+	main[0] = [20]int64{4, 4, 3, 3, 3, 2, 2, 2, 2, 10, 10, 10, 10, 9, 9, 9, 9, 9, 9, 1}
+	main[1] = [20]int64{0, 0, 0, 4, 4, 3, 3, 2, 2, 2, 2, 2, 10, 10, 10, 9, 9, 9, 9, 1}
+	main[2] = [20]int64{0, 0, 0, 4, 4, 4, 3, 3, 2, 10, 10, 10, 10, 10, 9, 9, 9, 9, 9, 1}
+	main[3] = [20]int64{0, 0, 0, 0, 4, 4, 4, 3, 3, 3, 2, 10, 10, 10, 10, 9, 9, 9, 9, 1}
+	main[4] = [20]int64{0, 0, 0, 0, 4, 4, 3, 3, 3, 3, 3, 2, 2, 10, 9, 9, 9, 9, 9, 1}
+	//免费的牌的设置
+	fee[0] = [20]int64{4, 3, 3, 2, 2, 10, 10, 10, 10, 10, 9, 9, 9, 9, 9, 9, 9, 9, 9, 1}
+	fee[1] = [20]int64{0, 4, 4, 4, 3, 3, 2, 2, 10, 10, 10, 9, 9, 9, 9, 9, 9, 9, 9, 1}
+	fee[2] = [20]int64{4, 4, 4, 3, 3, 3, 3, 2, 2, 10, 10, 10, 10, 10, 9, 9, 9, 9, 9, 1}
+	fee[3] = [20]int64{4, 4, 3, 3, 3, 2, 2, 2, 10, 10, 10, 10, 9, 9, 9, 9, 9, 9, 9, 1}
+	fee[4] = [20]int64{4, 4, 3, 3, 3, 2, 2, 2, 10, 10, 10, 10, 9, 9, 9, 9, 9, 9, 1}
+	newmain, _ := jsoniter.Marshal(main)
+	newfee, _ := jsoniter.Marshal(fee)
+
+	//utest.AssertError(test.run().setSender(accounts[5]).transfer(bn.N(1000000009000)).DigtalCurrency("LOC", 1000000009000), types.CodeOK)
+	test.run().setSender(contractOwner).transfer(bn.N(1000000001)).SetPoker(string(newmain),string(newfee))
+
 }
 
 //TestTiger_WithdrawFunds is a method of MySuite
@@ -651,6 +664,45 @@ func (mysuit *MySuite) TestTiger_PlaceFeeBet(c *check.C) () {
 	utest.Init(orgID)
 	contractOwner := utest.DeployContract(c, contractName, orgID, contractMethods, contractInterfaces)
 	test := NewTestObject(contractOwner)
-	test.setSender(contractOwner).InitChain()
+	//test.setSender(contractOwner).InitChain()
 	//TODO
+	contract := utest.UTP.Message().Contract()
+	genesisOwner := utest.UTP.Helper().GenesisHelper().Token().Owner()
+	utest.Assert(test.run().setSender(utest.UTP.Helper().AccountHelper().AccountOf(genesisOwner)) != nil)
+
+	utest.Transfer(nil, test.obj.sdk.Helper().GenesisHelper().Token().Name(), contract.Account(), bn.N(1E11))
+	accounts := utest.NewAccounts(test.obj.sdk.Helper().GenesisHelper().Token().Name(), bn.N(1E13), 6)
+	if accounts == nil {
+		panic("初始化newOwner失败")
+	}
+	// DigtalCurrency(tk string, num int64)
+	test.run().setSender(contractOwner).InitChain()
+
+	//_, _, reval, _, _, _ := PlaceBetHelper(100)
+	//_, _, reval1, _, _, _ := PlaceBetHelper(101)
+	//_, _, reval2, _, _, _ := PlaceBetHelper(102)
+	//_, _, reval3, _, _, _ := PlaceBetHelper(103)
+	commitLastBlock, pubKey, reval4, commit, signData, _ := PlaceBetHelper(104)
+	utest.AssertError(test.run().setSender(contractOwner).SetSecretSigner(pubKey[:]), types.CodeOK)
+	//utest.AssertError(err, types.CodeOK)
+	//reveal := [][]byte{reval, reval1, reval2, reval3, reval4}
+
+	utest.AssertError(test.run().setSender(accounts[5]).transfer(bn.N(1000000009000)).DigtalCurrency("LOC", 1000000009000), types.CodeOK)
+
+	test.run().setSender(accounts[5]).transfer(bn.N(1000000001)).PlaceBet(reval4, "LOC", 100000001, commitLastBlock, commit, signData[:], "")
+	commitLastBlock, _, reval, commit, signData, _ := PlaceBetHelper(int64(109))
+	test.run().setSender(accounts[5]).PlaceFeeBet(reval, "LOC", 100000001, commitLastBlock, commit, signData[:], "")
+
+
+	//for i := 1; i < 1000; i++ {
+	//	//s1, s2, s3, s4, s5 := i+1, i+2, i+3, i+4, i+5
+	//	//_, _, reval, _, _, _ := PlaceBetHelper(int64(s1))
+	//	//_, _, reval1, _, _, _ := PlaceBetHelper(int64(s2))
+	//	//_, _, reval2, _, _, _ := PlaceBetHelper(int64(s3))
+	//	//_, _, reval3, _, _, _ := PlaceBetHelper((int64(s4)))
+	//	commitLastBlock, _, reval, commit, signData, _ := PlaceBetHelper(int64(i))
+	//	//reveal := [][]byte{reval, reval1, reval2, reval3, reval4}
+	//	test.run().setSender(accounts[5]).PlaceFeeBet(reval, "LOC", 1000000001, commitLastBlock, commit, signData[:], "")
+	//
+	//}
 }

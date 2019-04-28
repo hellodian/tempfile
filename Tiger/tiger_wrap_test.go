@@ -12,7 +12,7 @@ import (
 
 var (
 	contractName= "Tiger" //contract name
-	contractMethods= []string{"ClacByLine([]Poker)(TYPE,TYPE,ARRAY_OR_SLICE_TYPE)", "ClacMul(int64,int64)TYPE", "ClacFee([]Poker)TYPE", "GetNineLine(types.Address)(TYPE,TYPE,ARRAY_OR_SLICE_TYPE)", "SetPoker([5][20]int64,[5][20]int64)", "SetSecretSigner(types.PubKey)", "SetOwner(types.Address)", "SetSettings(string)", "SetRecFeeInfo(string)", "DigtalCurrency(string,int64)", "ShuffleMainCards([][]byte,types.Address,*PlayerInfo)", "ShuffleRound([]byte,[]int64)ARRAY_OR_SLICE_TYPE", "AssemblePoker(int64,[]int64,*PlayerInfo)", "ShuffleFeeCards([][]byte,*PlayerInfo)", "WithdrawFunds(string,types.Address,bn.Number)", "PlaceBet([][]byte,string,int64,int64,[]byte,[]byte,types.Address)", "PlaceFeeBet([][]byte,string,int64,int64,[]byte,[]byte,types.Address)", "GetRandomNum([]byte)TYPE"}
+	contractMethods= []string{"ClacByLine([]Poker)(TYPE,TYPE,ARRAY_OR_SLICE_TYPE)", "ClacMul(int64,int64)TYPE", "ClacFee([]Poker)TYPE", "GetNineLine(types.Address)(TYPE,TYPE,ARRAY_OR_SLICE_TYPE)", "SetPoker(string,string)", "SetSecretSigner(types.PubKey)", "SetOwner(types.Address)", "SetSettings(string)", "SetRecFeeInfo(string)", "DigtalCurrency(string,int64)", "WithdrawFunds(string,types.Address,bn.Number)", "PlaceBet([]byte,string,int64,int64,[]byte,[]byte,types.Address)", "PlaceFeeBet([]byte,string,int64,int64,[]byte,[]byte,types.Address)", "GetRandomNum([]byte)TYPE"}
 	contractInterfaces= []string{}
 	orgID= "orgNUjCm1i8RcoW2kVTbDw4vKW6jzfMxewJHjkhuiduhjuikjuyhnnjkuhujk111"
 )
@@ -108,7 +108,7 @@ func (t *TestObject) GetNineLine(address types.Address) (result0 int64, result1 
 }
 
 //SetPoker This is a method of TestObject
-func (t *TestObject) SetPoker(main, fee [5][20]int64) (err types.Error) {
+func (t *TestObject) SetPoker(main, fee string) (err types.Error) {
 	err.ErrorCode = types.CodeOK
 	defer FuncRecover(&err)
 	utest.NextBlock(1)
@@ -167,46 +167,6 @@ func (t *TestObject) DigtalCurrency(tk string, num int64) (err types.Error) {
 	return
 }
 
-//ShuffleMainCards This is a method of TestObject
-func (t *TestObject) ShuffleMainCards(reveal [][]byte, playaddress types.Address, playInfo *PlayerInfo) (err types.Error) {
-	err.ErrorCode = types.CodeOK
-	defer FuncRecover(&err)
-	utest.NextBlock(1)
-	t.obj.ShuffleMainCards(reveal, playaddress, playInfo)
-	utest.Commit()
-	return
-}
-
-//ShuffleRound This is a method of TestObject
-func (t *TestObject) ShuffleRound(reveal []byte, s []int64) (result0 []int64, err types.Error) {
-	err.ErrorCode = types.CodeOK
-	defer FuncRecover(&err)
-	utest.NextBlock(1)
-	result0 = t.obj.ShuffleRound(reveal, s)
-	utest.Commit()
-	return
-}
-
-//AssemblePoker This is a method of TestObject
-func (t *TestObject) AssemblePoker(f int64, s []int64, playInfo *PlayerInfo) (err types.Error) {
-	err.ErrorCode = types.CodeOK
-	defer FuncRecover(&err)
-	utest.NextBlock(1)
-	t.obj.AssemblePoker(f, s, playInfo)
-	utest.Commit()
-	return
-}
-
-//ShuffleFeeCards This is a method of TestObject
-func (t *TestObject) ShuffleFeeCards(reveal [][]byte, playinfo *PlayerInfo) (err types.Error) {
-	err.ErrorCode = types.CodeOK
-	defer FuncRecover(&err)
-	utest.NextBlock(1)
-	t.obj.ShuffleFeeCards(reveal, playinfo)
-	utest.Commit()
-	return
-}
-
 //WithdrawFunds This is a method of TestObject
 func (t *TestObject) WithdrawFunds(tokenName string, beneficiary types.Address, withdrawAmount bn.Number) (err types.Error) {
 	err.ErrorCode = types.CodeOK
@@ -218,21 +178,21 @@ func (t *TestObject) WithdrawFunds(tokenName string, beneficiary types.Address, 
 }
 
 //PlaceBet This is a method of TestObject
-func (t *TestObject) PlaceBet(reveal [][]byte, tokenName string, betNum, commitLastBlock int64, commit, signData []byte, refAddress types.Address) (err types.Error) {
+func (t *TestObject) PlaceBet(reveals []byte, tokenName string, betNum, commitLastBlock int64, commit, signData []byte, refAddress types.Address) (err types.Error) {
 	err.ErrorCode = types.CodeOK
 	defer FuncRecover(&err)
 	utest.NextBlock(1)
-	t.obj.PlaceBet(reveal, tokenName, betNum, commitLastBlock, commit, signData, refAddress)
+	t.obj.PlaceBet(reveals, tokenName, betNum, commitLastBlock, commit, signData, refAddress)
 	utest.Commit()
 	return
 }
 
 //PlaceFeeBet This is a method of TestObject
-func (t *TestObject) PlaceFeeBet(reveal [][]byte, tokenName string, betNum, commitLastBlock int64, commit, signData []byte, refAddress types.Address) (err types.Error) {
+func (t *TestObject) PlaceFeeBet(reveals []byte, tokenName string, betNum, commitLastBlock int64, commit, signData []byte, refAddress types.Address) (err types.Error) {
 	err.ErrorCode = types.CodeOK
 	defer FuncRecover(&err)
 	utest.NextBlock(1)
-	t.obj.PlaceFeeBet(reveal, tokenName, betNum, commitLastBlock, commit, signData, refAddress)
+	t.obj.PlaceFeeBet(reveals, tokenName, betNum, commitLastBlock, commit, signData, refAddress)
 	utest.Commit()
 	return
 }

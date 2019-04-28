@@ -125,3 +125,62 @@ func (t *Tiger) transferToRecFeeAddr(tokenName string,fee bn.Number) {
 	}
 }
 
+
+
+//ShuffleMainCards 组建 免费游戏的牌面数据  和主游戏有区别 免费游戏最后一个是19个数
+func (t *Tiger) ShuffleFeeCards(reveal [][]byte, playinfo *PlayerInfo) {
+	w := make([]int64, 3)
+	for i := 0; i < len(reveal); i++ {
+		if i == len(reveal)-1 { //表示是最后一轮了
+			w = t.ShuffleRound(reveal[i], t.pokerFeeSet[i][:19])
+		} else {
+			w = t.ShuffleRound(reveal[i], t.pokerFeeSet[i][:])
+		}
+		t.AssemblePoker(int64(i), w, playinfo)
+	}
+
+}
+//ShuffleMainCards 组建 主游戏的牌面数据  为了在同一个区块内产生不同的随机数  传5个reveal 过来
+func (t *Tiger) ShuffleMainCards(reveal [][]byte, playaddress types.Address, playInfo *PlayerInfo) {
+	main := t._pokerMainSet()
+	for i, v := range reveal {
+		w := t.ShuffleRound(v, main[i][:])
+		t.AssemblePoker(int64(i), w, playInfo)
+	}
+
+}
+
+//ShuffleMainRound
+func (t *Tiger) ShuffleRound(reveal []byte, s []int64) (w []int64) {
+	w = make([]int64, 3)
+	//取第一个数
+	bytes := t.GetRandomNum(reveal)
+	first := bytes.ModI(int64(len(s)))
+	firstIndex := first.V.Int64()
+	w[0] = s[firstIndex]
+	newSlice := append(s[:firstIndex], s[firstIndex+1:]...)
+	second := t.GetRandomNum(reveal).ModI(int64(len(newSlice)))
+	secondIndex := second.V.Int64()
+	//取第二个数
+	w[1] = newSlice[secondIndex]
+	newSlice = append(newSlice[:secondIndex], newSlice[secondIndex+1:]...)
+	third := t.GetRandomNum(reveal).ModI(int64(len(newSlice)))
+	thirdIndex := third.V.Int64()
+	//取第三个数
+	w[2] = newSlice[thirdIndex]
+	return
+
+}
+
+//ShuffleMainRound 组建轮数据
+func (t *Tiger) AssemblePoker(f int64, s []int64, playInfo *PlayerInfo) {
+	playInfo.Poker[0][f] = Poker{0, f, s[0]}
+	playInfo.Poker[1][f] = Poker{1, f, s[1]}
+	playInfo.Poker[2][f] = Poker{2, f, s[2]}
+	pokerlist:=[]Poker{playInfo.Poker[0][f],playInfo.Poker[1][f],playInfo.Poker[2][f]}
+
+	//fire event
+	t.emitAssemblePoker(f,pokerlist)
+
+}
+

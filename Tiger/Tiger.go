@@ -7,7 +7,6 @@ import (
 	_ "blockchain/smcsdk/sdk/crypto/sha3"
 	"blockchain/smcsdk/sdk/jsoniter"
 	"blockchain/smcsdk/sdk/types"
-	"fmt"
 )
 
 //@:public:receipt
@@ -93,26 +92,33 @@ func (t *Tiger) InitChain() {
 
 //SetPoker - set Tiger poker
 //@:public:method:gas[500]
-func (t *Tiger) SetPoker(main, fee [5][20]int64) {
+func (t *Tiger) SetPoker(main, fee string) {
+	newmain := new([5][20]int64)
+	newfee := new([5][20]int64)
+	err := jsoniter.Unmarshal([]byte(main), newmain)
+	sdk.RequireNotError(err, types.ErrInvalidParameter)
+	err = jsoniter.Unmarshal([]byte(fee), newfee)
+	sdk.RequireNotError(err, types.ErrInvalidParameter)
+
 	sdk.RequireOwner(t.sdk)
-	sdk.Require(len(main) == ARRAYSIZE && len(fee) == ARRAYSIZE,
+	sdk.Require(len(newmain) == ARRAYSIZE && len(newfee) == ARRAYSIZE,
 		types.ErrInvalidParameter, "length of array must be five")
-	for _, v := range main {
+	for _, v := range newmain {
 		for _, value := range v {
 			sdk.Require((value >= 0 && value <= 4) || value == 9 || value == 10,
 				types.ErrInvalidParameter, "poker num is wrong")
 		}
 
 	}
-	for _, v := range fee {
+	for _, v := range newfee {
 		for _, value := range v {
 			sdk.Require((value >= 0 && value <= 4) || value == 9 || value == 10,
 				types.ErrInvalidParameter, "poker num is wrong")
 		}
 
 	}
-	t._setPokerMainSet(main)
-	t._setPokerMainSet(fee)
+	t._setPokerMainSet(*newmain)
+	t._setPokerMainSet(*newfee)
 
 }
 
@@ -258,70 +264,6 @@ func (t *Tiger) DigtalCurrency(tk string, num int64) {
 
 }
 
-
-//ShuffleMainCards 组建 主游戏的牌面数据  为了在同一个区块内产生不同的随机数  传5个reveal 过来
-//@:public:method:gas[500]
-func (t *Tiger) ShuffleMainCards(reveal [][]byte, playaddress types.Address, playInfo *PlayerInfo) {
-	main := t._pokerMainSet()
-	for i, v := range reveal {
-		w := t.ShuffleRound(v, main[i][:])
-		t.AssemblePoker(int64(i), w, playInfo)
-	}
-
-}
-
-//ShuffleMainRound This is a sample method
-//@:public:method:gas[500]
-func (t *Tiger) ShuffleRound(reveal []byte, s []int64) (w []int64) {
-	w = make([]int64, 3)
-	//取第一个数
-	bytes := t.GetRandomNum(reveal)
-	first := bytes.ModI(int64(len(s)))
-	firstIndex := first.V.Int64()
-	w[0] = s[firstIndex]
-	newSlice := append(s[:firstIndex], s[firstIndex+1:]...)
-	second := t.GetRandomNum(reveal).ModI(int64(len(newSlice)))
-	secondIndex := second.V.Int64()
-	//取第二个数
-	w[1] = newSlice[secondIndex]
-	newSlice = append(newSlice[:secondIndex], newSlice[secondIndex+1:]...)
-	third := t.GetRandomNum(reveal).ModI(int64(len(newSlice)))
-	thirdIndex := third.V.Int64()
-	//取第三个数
-	w[2] = newSlice[thirdIndex]
-	return
-
-}
-
-//ShuffleMainRound 组建轮数据
-//@:public:method:gas[500]
-func (t *Tiger) AssemblePoker(f int64, s []int64, playInfo *PlayerInfo) {
-	playInfo.Poker[0][f] = Poker{0, f, s[0]}
-	playInfo.Poker[1][f] = Poker{1, f, s[1]}
-	playInfo.Poker[2][f] = Poker{2, f, s[2]}
-	pokerlist:=[]Poker{playInfo.Poker[0][f],playInfo.Poker[1][f],playInfo.Poker[2][f]}
-
-	//fire event
-	t.emitAssemblePoker(f,pokerlist)
-
-}
-
-
-//ShuffleMainCards 组建 免费游戏的牌面数据  和主游戏有区别 免费游戏最后一个是19个数
-//@:public:method:gas[500]
-func (t *Tiger) ShuffleFeeCards(reveal [][]byte, playinfo *PlayerInfo) {
-	w := make([]int64, 3)
-	for i := 0; i < len(reveal); i++ {
-		if i == len(reveal)-1 { //表示是最后一轮了
-			w = t.ShuffleRound(reveal[i], t.pokerFeeSet[i][:19])
-		} else {
-			w = t.ShuffleRound(reveal[i], t.pokerFeeSet[i][:])
-		}
-		t.AssemblePoker(int64(i), w, playinfo)
-	}
-
-}
-
 // WithdrawFunds - Funds withdrawal
 //@:public:method:gas[500]
 func (t *Tiger) WithdrawFunds(tokenName string, beneficiary types.Address, withdrawAmount bn.Number) {
@@ -346,12 +288,17 @@ func (t *Tiger) WithdrawFunds(tokenName string, beneficiary types.Address, withd
 
 // PlaceBet - place bet
 //@:public:method:gas[500]
-func (t *Tiger) PlaceBet(reveal [][]byte, tokenName string, betNum, commitLastBlock int64, commit, signData []byte, refAddress types.Address) {
+func (t *Tiger) PlaceBet(reveals []byte, tokenName string, betNum, commitLastBlock int64, commit, signData []byte, refAddress types.Address) {
+
 	playerAddress := t.sdk.Message().Sender().Address()
+	sdk.Require(playerAddress != t.sdk.Message().Contract().Owner(),
+		types.ErrNoAuthorization, "The contract owner cannot bet")
 	//1. Verify whether the signature and current round betting are legal
 	data := append(bn.N(commitLastBlock).Bytes(), commit...)
 	sdk.Require(ed25519.VerifySign(t._secretSigner(), data, signData),
 		types.ErrInvalidParameter, "Incorrect signature")
+	reveal:=[][]byte{reveals[5:], reveals[10:], reveals[15:], reveals[20:], reveals[25:]}
+
 	//hexCommit := hex.EncodeToString(commit)
 	//Is late
 	sdk.Require(t.sdk.Block().Height() <= commitLastBlock,
@@ -363,7 +310,6 @@ func (t *Tiger) PlaceBet(reveal [][]byte, tokenName string, betNum, commitLastBl
 
 	if v, ok := playInfo.Currency[tokenName]; ok {
 		//存在  判断投注金额和余额的比较
-		fmt.Println(v)
 		sdk.Require(v >= betNum,
 			types.ErrInvalidParameter, "bet count is larger than balance")
 	} else {
@@ -436,7 +382,8 @@ func (t *Tiger) PlaceBet(reveal [][]byte, tokenName string, betNum, commitLastBl
 
 // PlaceBet - place bet
 //@:public:method:gas[500]
-func (t *Tiger) PlaceFeeBet(reveal [][]byte, tokenName string, betNum, commitLastBlock int64, commit, signData []byte, refAddress types.Address) {
+func (t *Tiger) PlaceFeeBet(reveals []byte, tokenName string, betNum, commitLastBlock int64, commit, signData []byte, refAddress types.Address) {
+	reveal:=[][]byte{reveals[5:], reveals[10:], reveals[15:], reveals[20:], reveals[25:]}
 	playerAddress := t.sdk.Message().Sender().Address()
 	//1. Verify whether the signature and current round betting are legal
 	data := append(bn.N(commitLastBlock).Bytes(), commit...)
@@ -450,7 +397,10 @@ func (t *Tiger) PlaceFeeBet(reveal [][]byte, tokenName string, betNum, commitLas
 	playInfo := t._betInfo(playerAddress)
 	sdk.Require(playInfo != nil,
 		types.ErrInvalidParameter, "Process errors, please digtalCurrency first")
-
+	//做测试用的写死 正式的要改回来
+	//playInfo.Fee.FeeCount=1000
+	//playInfo.Fee.BetAmout=100000001
+	//playInfo.Fee.TokenName="LOC"
 	sdk.Require(playInfo.Fee.FeeCount > 0 && playInfo.Fee.BetAmout == betNum && playInfo.Fee.TokenName == tokenName,
 		types.ErrInvalidParameter, "You can't play free games")
 
@@ -489,9 +439,6 @@ func (t *Tiger) PlaceFeeBet(reveal [][]byte, tokenName string, betNum, commitLas
 	lockedInBet := t._lockedInBets(tokenName)
 	t._setLockedInBets(tokenName, lockedInBet.Sub(totalMaybeWinAmount))
 	t._setBetInfo(playerAddress, playInfo)
-
-	noe := t._betInfo(playerAddress)
-	fmt.Println(noe)
 
 	//发送emit
 	t.emitPlaceBet(
