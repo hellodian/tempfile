@@ -9,7 +9,6 @@ import (
 
 
 //ShuffleMainRound This is a sample method
-//@:public:method:gas[500]
 func (t *Tiger) GetRandomNum(reveal []byte) (w bn.Number){
 	w=bn.NBytes(sha3.Sum256(reveal, t.sdk.Block().BlockHash(), t.sdk.Block().RandomNumber()))
 	return

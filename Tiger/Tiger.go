@@ -24,8 +24,8 @@ type receipt interface {
 //Tiger This is struct of contract
 //@:contract:Tiger
 //@:version:1.0
-//@:organization:orgNUjCm1i8RcoW2kVTbDw4vKW6jzfMxewJHjkhuiduhjuikjuyhnnjkuhujk111
-//@:author:cc196aa70a386ca672aed1062003d3c07cd6fc3f6b3b0ca71e7095e33a5c73b0
+//@:organization:orgBtjfCSPCAJ84uQWcpNr74NLMWYm5SXzer
+//@:author:01bd6c29d63f5f32aa33955f26a28459988edea4de517f77372e77db33958e6e
 type Tiger struct {
 	sdk sdk.ISmartContract
 
