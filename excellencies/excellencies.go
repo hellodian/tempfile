@@ -24,10 +24,10 @@ type Excellencies struct {
 	//@:public:store:cache
 	lockedInBets map[string]bn.Number // Lock amount (unit cong) key: currency name
 
-	//@:public:store
+	//@:public:store:cache
 	settings *Settings
 
-	//@:public:store
+	//@:public:store:cache
 	recFeeInfo []RecFeeInfo
 
 	//@:public:store
