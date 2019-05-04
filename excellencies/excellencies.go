@@ -13,8 +13,8 @@ import (
 //excellencies This is struct of contract
 //@:contract:excellencies
 //@:version:1.0
-//@:organization:orgNUjCm1i8RcoW2kVTbDw4vKW6jzfMxewJHjkhuiduhjuikjuyhnnjkuhujk111
-//@:author:ef94556a937618c72ffaf173b1533c533d77aa3ea2a63f053bb904feefe5a92f
+//@:organization:orgBtjfCSPCAJ84uQWcpNr74NLMWYm5SXzer
+//@:author:01bd6c29d63f5f32aa33955f26a28459988edea4de517f77372e77db33958e6e
 type Excellencies struct {
 	sdk sdk.ISmartContract
 
@@ -24,10 +24,10 @@ type Excellencies struct {
 	//@:public:store:cache
 	lockedInBets map[string]bn.Number // Lock amount (unit cong) key: currency name
 
-	//@:public:store:cache
+	//@:public:store
 	settings *Settings
 
-	//@:public:store:cache
+	//@:public:store
 	recFeeInfo []RecFeeInfo
 
 	//@:public:store
@@ -36,11 +36,10 @@ type Excellencies struct {
 	//@:public:store:cache
 	poolAmount map[string]bn.Number
 
-	//@:public:store:cache
+	//@:public:store
 	slipper map[string]SlipperInfo
 
 	//@:public:store
-	//poker  [52]*Poker
 	poker  []Poker
 
 }
