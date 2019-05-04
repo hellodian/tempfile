@@ -13,8 +13,8 @@ import (
 //excellencies This is struct of contract
 //@:contract:excellencies
 //@:version:1.0
-//@:organization:orgBtjfCSPCAJ84uQWcpNr74NLMWYm5SXzer
-//@:author:01bd6c29d63f5f32aa33955f26a28459988edea4de517f77372e77db33958e6e
+//@:organization:orgNUjCm1i8RcoW2kVTbDw4vKW6jzfMxewJHjkhuiduhjuikjuyhnnjkuhujk111
+//@:author:ef94556a937618c72ffaf173b1533c533d77aa3ea2a63f053bb904feefe5a92f
 type Excellencies struct {
 	sdk sdk.ISmartContract
 
@@ -40,7 +40,8 @@ type Excellencies struct {
 	slipper map[string]SlipperInfo
 
 	//@:public:store
-	poker  []*Poker
+	//poker  [52]*Poker
+	poker  []Poker
 
 }
 
@@ -77,20 +78,20 @@ func (sg *Excellencies) InitChain() {
 	sg.LockedInBetsInit(settings.TokenNames)
 	sg.PoolAmountInit(settings.TokenNames)
 	//set poker
-	pokers:=[]*Poker{
-		&Poker{"2",2,0},&Poker{"2",2,1},&Poker{"2",2,2},&Poker{"2",2,3},
-		&Poker{"3",3,0},&Poker{"3",3,1},&Poker{"3",3,2},&Poker{"3",3,3},
-		&Poker{"4",4,0},&Poker{"4",4,1},&Poker{"4",4,2},&Poker{"4",4,3},
-		&Poker{"5",5,0},&Poker{"5",5,1},&Poker{"5",5,2},&Poker{"5",5,3},
-		&Poker{"6",6,0},&Poker{"6",6,1},&Poker{"6",6,2},&Poker{"6",6,3},
-		&Poker{"7",7,0},&Poker{"7",7,1},&Poker{"7",7,2},&Poker{"7",7,3},
-		&Poker{"8",8,0},&Poker{"8",8,1},&Poker{"8",8,2},&Poker{"8",8,3},
-		&Poker{"9",9,0},&Poker{"9",9,1},&Poker{"9",9,2},&Poker{"9",9,3},
-		&Poker{"10",10,0},&Poker{"10",10,1},&Poker{"10",10,2},&Poker{"10",10,3},
-		&Poker{"A",1,0},&Poker{"A",1,1},&Poker{"A",1,2},&Poker{"A",1,3},
-		&Poker{"J",11,0},&Poker{"J",11,1},&Poker{"J",11,2},&Poker{"J",11,3},
-		&Poker{"Q",12,0},&Poker{"Q",12,1},&Poker{"Q",12,2},&Poker{"Q",12,3},
-		&Poker{"K",13,0},&Poker{"K",13,1},&Poker{"K",13,2},&Poker{"K",13,3},
+	pokers:=[]Poker{
+		Poker{"2",2,0},Poker{"2",2,1},Poker{"2",2,2},Poker{"2",2,3},
+		Poker{"3",3,0},Poker{"3",3,1},Poker{"3",3,2},Poker{"3",3,3},
+		Poker{"4",4,0},Poker{"4",4,1},Poker{"4",4,2},Poker{"4",4,3},
+		Poker{"5",5,0},Poker{"5",5,1},Poker{"5",5,2},Poker{"5",5,3},
+		Poker{"6",6,0},Poker{"6",6,1},Poker{"6",6,2},Poker{"6",6,3},
+		Poker{"7",7,0},Poker{"7",7,1},Poker{"7",7,2},Poker{"7",7,3},
+		Poker{"8",8,0},Poker{"8",8,1},Poker{"8",8,2},Poker{"8",8,3},
+		Poker{"9",9,0},Poker{"9",9,1},Poker{"9",9,2},Poker{"9",9,3},
+		Poker{"10",10,0},Poker{"10",10,1},Poker{"10",10,2},Poker{"10",10,3},
+		Poker{"A",1,0},Poker{"A",1,1},Poker{"A",1,2},Poker{"A",1,3},
+		Poker{"J",11,0},Poker{"J",11,1},Poker{"J",11,2},Poker{"J",11,3},
+		Poker{"Q",12,0},Poker{"Q",12,1},Poker{"Q",12,2},Poker{"Q",12,3},
+		Poker{"K",13,0},Poker{"K",13,1},Poker{"K",13,2},Poker{"K",13,3},
 		}
 	sg._setPoker(pokers)
 
@@ -371,6 +372,7 @@ func (e *Excellencies) SettleBet(reveal []byte, settleCount int64) {
 		//Set the database state state to lottery
 		roundInfo.State = AWARDED
 	}
+
 	e.DealSettle(roundInfo, hexCommit, startIndex, endIndex)
 }
 

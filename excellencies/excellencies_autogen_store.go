@@ -179,14 +179,14 @@ func (e *Excellencies) _McChkSlipper(k string) bool {
 }
 
 //_setPoker This is a method of Excellencies
-func (e *Excellencies) _setPoker(v []*Poker) {
-	e.sdk.Helper().StateHelper().Set("/poker", v)
+func (e *Excellencies) _setPoker(v []Poker) {
+	e.sdk.Helper().StateHelper().Set("/poker", &v)
 }
 
 //_poker This is a method of Excellencies
-func (e *Excellencies) _poker() *[]*Poker {
+func (e *Excellencies) _poker() []Poker {
 
-	return e.sdk.Helper().StateHelper().GetEx("/poker", new([]*Poker)).(*[]*Poker)
+	return *e.sdk.Helper().StateHelper().GetEx("/poker", new([]Poker)).(*[]Poker)
 }
 
 //_chkPoker This is a method of Excellencies

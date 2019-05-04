@@ -166,6 +166,7 @@ func (mysuit *MySuite) TestSicBo_SetSettings(c *check.C) {
 	settings := Settings{}
 
 	settings.FeeRatio = 50
+	settings.CarveUpPoolRatio = 50
 	settings.FeeMiniNum = 300000
 	settings.SendToCltRatio = 100
 	settings.BetExpirationBlocks = 250
