@@ -1,9 +1,8 @@
 # 本地服务监听地址:端口
-#serverAddr: "tcp://0.0.0.0:37657"
-serverAddr: "tcp://148.66.11.125:46657"
+serverAddr: "tcp://0.0.0.0:37657"
+#serverAddr: "tcp://148.66.11.125:46657"
 # 是否使用https
 useHttps: false
-
 # 外部证书路径
 outCertPath: "./.config/bcc.rpc"
 

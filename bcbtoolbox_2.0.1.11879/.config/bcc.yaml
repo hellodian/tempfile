@@ -1,5 +1,5 @@
 # 默认配置
-defaultChainID: "bcb"
+defaultChainID: "test"
 
 # 区块链知名入口
 urls: !!map
@@ -19,6 +19,6 @@ urls: !!map
     - "https://tjupiter.bcbchain.io"
     - "https://tsaturn.bcbchain.io"
 
-  local:
-    - "http://localhost:46657"
+  test:
+    - "http://148.66.11.125:46657/"
   
