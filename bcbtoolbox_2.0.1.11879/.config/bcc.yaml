@@ -1,0 +1,24 @@
+# 默认配置
+defaultChainID: "bcb"
+
+# 区块链知名入口
+urls: !!map
+  bcb:
+    - "https://earth.bcbchain.io"
+    - "https://mars.bcbchain.io"
+    - "https://venus.bcbchain.io"
+    - "https://mercury.bcbchain.io"
+    - "https://jupiter.bcbchain.io"
+    - "https://saturn.bcbchain.io"
+
+  bcbtest:
+    - "https://tearth.bcbchain.io"
+    - "https://tmars.bcbchain.io"
+    - "https://tvenus.bcbchain.io"
+    - "https://tmercury.bcbchain.io"
+    - "https://tjupiter.bcbchain.io"
+    - "https://tsaturn.bcbchain.io"
+
+  local:
+    - "http://localhost:46657"
+  
